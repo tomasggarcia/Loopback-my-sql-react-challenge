@@ -1,0 +1,36 @@
+
+$enable-grid-classes: false;
+$primary: #006b70;
+$secondary: #e05104;
+$success: #2c666e;
+$danger: #90ddf0;
+$info: #9b9b9b;
+// $warning:#343a40;
+$warning: #dc3545;
+$light: #ffff;
+$dark: #0a001d;
+@import "bootstrap";
+
+// Add SASS theme customizations here..
+html {
+    font-size: 0.8rem;
+}
+@include media-breakpoint-up(sm) {
+    html {
+        font-size: 0.9rem;
+    }
+}
+@include media-breakpoint-up(md) {
+    html {
+        font-size: 0.9rem;
+    }
+}
+@include media-breakpoint-up(lg) {
+    html {
+        font-size: 1rem;
+    }
+}
+
+body {
+    background-color: #eaeaea;
+}
