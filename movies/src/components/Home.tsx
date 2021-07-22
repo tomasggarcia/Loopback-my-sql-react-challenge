@@ -32,6 +32,25 @@ export default function Home() {
         getMovies()
     }, [])
 
+
+    const addMovie =(event: any)=>{
+       
+        swal('Change movie name', {
+            content: {
+                element: 'input',
+                attributes: {
+                    placeholder: 'New name',
+                }
+            }
+        } as any)
+            .then(async(value) => {
+                let resp = await axios.post(`${url}/movies`,{name:value})
+                console.log(resp)
+                getMovies()
+            })
+
+    }
+
     const swalEdit = (event: any) => {
         swal('Change movie name', {
             content: {
@@ -76,6 +95,7 @@ export default function Home() {
     }
     return (
         <div>
+            <Button onClick={addMovie}>Add Movie</Button>
             <Input />
             <Container>
                 <ListGroup className='mt-3 w-50'>
