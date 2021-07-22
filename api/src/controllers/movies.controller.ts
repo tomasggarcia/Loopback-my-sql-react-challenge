@@ -16,6 +16,7 @@ import {
   del,
   requestBody,
   response,
+  HttpErrors,
 } from '@loopback/rest';
 import { Movies } from '../models';
 import { MoviesRepository } from '../repositories';
@@ -31,34 +32,29 @@ export class MoviesController {
     description: 'Movies model instance',
     content: { 'application/json': { schema: getModelSchemaRef(Movies) } },
   })
-  // async create(
-  //   @requestBody({
-  //     content: {
-  //       'application/json': {
-  //         schema: getModelSchemaRef(Movies, {
-  //           title: 'NewMovies',
-  //           exclude: ['id'],
-  //         }),
-  //       },
-  //     },
-  //   })
   async create(
     @requestBody({
       content: {
         'application/json': {
-          schema: {
-            type: 'array',
-            items: getModelSchemaRef(Movies, {
-              title: 'NewMovies',
-              exclude: ['id'],
-            }),
-          }
+          schema: getModelSchemaRef(Movies, {
+            title: 'NewMovies',
+            exclude: ['id'],
+          }),
         },
       },
     })
-
     movies: Omit<Movies, 'id'>,
   ): Promise<Movies> {
+    console.log(movies)
+    const movieExists = await this.moviesRepository.findOne({
+      where: {
+        name: movies.name
+      },
+    });
+    if (movieExists) {
+      // Disallow addition of user into existing tenant
+      throw new HttpErrors.BadRequest('Movie already exists');
+    } 
     return this.moviesRepository.create(movies);
   }
 

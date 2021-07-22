@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Input from './Input'
 import axios from 'axios'
 import { url } from '../config'
@@ -33,8 +33,8 @@ export default function Home() {
     }, [])
 
 
-    const addMovie =(event: any)=>{
-       
+    const addMovie = (event: any) => {
+
         swal('Change movie name', {
             content: {
                 element: 'input',
@@ -43,56 +43,56 @@ export default function Home() {
                 }
             }
         } as any)
-            .then(async(value) => {
-                let resp = await axios.post(`${url}/movies`,{name:value})
-                console.log(resp)
+            .then(async (value) => {
+                try {
+                    await axios.post(`${url}/movies`, { name: value })
+                    swal('Movie Created')
+                    getMovies()
+                } catch (error) {
+                    let errorMessage = error.response.data.error.message
+                    if (errorMessage){
+                        swal(errorMessage)
+                    }
+                }
+            })
+
+    }
+
+    const handleEdit = (event: any) => {
+        swal('Change movie name', {
+            content: {
+                element: 'input',
+                attributes: {
+                    placeholder: 'New name',
+                }
+            }
+        } as any)
+            .then(async (value) => {
+                let id = parseInt(event.target.name)
+                console.log(id)
+                try {
+                    let resp = await axios.put(`${url}/movies/${id}`, { id: id, name: value })
+                    console.log(resp)
+                } catch (error) {
+                    console.log(error)
+                }
                 getMovies()
             })
-
     }
 
-    const swalEdit = (event: any) => {
-        swal('Change movie name', {
-            content: {
-                element: 'input',
-                attributes: {
-                    placeholder: 'New name',
+    const handleDelete = (event: any) => {
+        swal('Are you sure you want to delete the movie', {
+            buttons: ["No", "Yes"],
+        })
+            .then(async (value) => {
+                if (value === true) {
+                    let resp = await axios.delete(`${url}/movies/${event.target.name}`)
+                    console.log(resp)
+                    getMovies()
                 }
-            }
-        } as any)
-            .then((value) => {
-                handleEdit(event, value)
             })
     }
 
-    const swalDelete = (event: any) => {
-        swal('Are you sure you want to delete the movie',{
-            buttons: ["No", "Yes"],
-          })
-          .then((value)=>{
-              if(value===true){
-                  handleDelete(event)
-              }
-          })
-    }
-
-    const handleEdit = async (event: any, value: string) => {
-        let id = parseInt(event.target.name)
-        console.log(id)
-        try {
-            let resp = await axios.put(`${url}/movies/${id}`, { id: id, name: value })
-            console.log(resp)
-        } catch (error) {
-            console.log(error)
-        }
-        getMovies()
-    }
-
-    const handleDelete = async (event: any) => {
-        let resp = await axios.delete(`${url}/movies/${event.target.name}`)
-        console.log(resp)
-        getMovies()
-    }
     return (
         <div>
             <Button onClick={addMovie}>Add Movie</Button>
@@ -101,8 +101,8 @@ export default function Home() {
                 <ListGroup className='mt-3 w-50'>
                     {movies.map((movie: any) => (
                         <ListGroup.Item>{movie.name} {movie.id}
-                            <Button name={movie.id.toString()} onClick={swalEdit}>Edit</Button>
-                            <Button name={movie.id.toString()} onClick={swalDelete}>X</Button>
+                            <Button name={movie.id.toString()} onClick={handleEdit}>Edit</Button>
+                            <Button name={movie.id.toString()} onClick={handleDelete}>X</Button>
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
