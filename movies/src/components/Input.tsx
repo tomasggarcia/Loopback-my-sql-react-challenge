@@ -17,12 +17,13 @@ export default function Input() {
 
     const handleSubmit = ()=> {
         console.log(input)
-        let moviesPost = []
-        // input.forEach(movie => {
+        let moviesPost: string
+        let mov = input.map(movie => ({name:movie}))
+        console.log(mov)
+        moviesPost = JSON.stringify(mov)
+        console.log(moviesPost)
 
-        // })
-
-        axios.post(`${url}/movies`,{name:input[0]}).then(resp => console.log(resp))
+        axios.post(`${url}/movies`,mov).then(resp => console.log(resp))
     }
     return (
         <div>

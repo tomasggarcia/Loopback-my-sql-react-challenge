@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Input from './Input'
 import axios from 'axios'
 import { url } from '../config'
-import { Container, ListGroup } from 'react-bootstrap'
+import { Button, Container, ListGroup } from 'react-bootstrap'
+import swal from 'sweetalert';
+
 
 interface IMovies {
     id?: number,
@@ -29,13 +31,59 @@ export default function Home() {
         })()
     }, [])
 
+
+    const swalEdit = (event: any) => {
+        swal('Change movie name', {
+            content: {
+                element: 'input',
+                attributes: {
+                    placeholder: 'New name',
+                }
+            }
+        } as any)
+            .then((value) => {
+                handleEdit(event, value)
+            })
+    }
+
+    const handleEdit = async (event: any, value: string) => {
+        let id = parseInt(event.target.name)
+        console.log(id)
+        try {
+            let resp = await axios.put(`${url}/movies/${id}`, { id: id, name: value })
+            console.log(resp)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    const swalDelete = (event: any) => {
+        swal({
+            buttons: ["Stop", "Do it!"],
+          })
+          .then((value)=>{
+              if(value===true){
+                  handleDelete(event)
+              }
+          })
+    }
+
+    const handleDelete = async (event: any) => {
+        
+        let resp = await axios.delete(`${url}/movies/${event.target.name}`)
+        console.log(resp)
+    }
     return (
         <div>
             <Input />
             <Container>
                 <ListGroup className='mt-3 w-50'>
                     {movies.map((movie: any) => (
-                        <ListGroup.Item>{movie.name}</ListGroup.Item>
+                        <ListGroup.Item>{movie.name} {movie.id}
+                            <Button name={movie.id.toString()} onClick={swalEdit}>Edit</Button>
+                            <Button name={movie.id.toString()} onClick={swalDelete}>X</Button>
+                        </ListGroup.Item>
                     ))}
                 </ListGroup>
             </Container>

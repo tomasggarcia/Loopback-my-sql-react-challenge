@@ -17,31 +17,46 @@ import {
   requestBody,
   response,
 } from '@loopback/rest';
-import {Movies} from '../models';
-import {MoviesRepository} from '../repositories';
+import { Movies } from '../models';
+import { MoviesRepository } from '../repositories';
 
 export class MoviesController {
   constructor(
     @repository(MoviesRepository)
-    public moviesRepository : MoviesRepository,
-  ) {}
+    public moviesRepository: MoviesRepository,
+  ) { }
 
   @post('/movies')
   @response(200, {
     description: 'Movies model instance',
-    content: {'application/json': {schema: getModelSchemaRef(Movies)}},
+    content: { 'application/json': { schema: getModelSchemaRef(Movies) } },
   })
+  // async create(
+  //   @requestBody({
+  //     content: {
+  //       'application/json': {
+  //         schema: getModelSchemaRef(Movies, {
+  //           title: 'NewMovies',
+  //           exclude: ['id'],
+  //         }),
+  //       },
+  //     },
+  //   })
   async create(
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Movies, {
-            title: 'NewMovies',
-            exclude: ['id'],
-          }),
+          schema: {
+            type: 'array',
+            items: getModelSchemaRef(Movies, {
+              title: 'NewMovies',
+              exclude: ['id'],
+            }),
+          }
         },
       },
     })
+
     movies: Omit<Movies, 'id'>,
   ): Promise<Movies> {
     return this.moviesRepository.create(movies);
@@ -50,7 +65,7 @@ export class MoviesController {
   @get('/movies/count')
   @response(200, {
     description: 'Movies model count',
-    content: {'application/json': {schema: CountSchema}},
+    content: { 'application/json': { schema: CountSchema } },
   })
   async count(
     @param.where(Movies) where?: Where<Movies>,
@@ -65,7 +80,7 @@ export class MoviesController {
       'application/json': {
         schema: {
           type: 'array',
-          items: getModelSchemaRef(Movies, {includeRelations: true}),
+          items: getModelSchemaRef(Movies, { includeRelations: true }),
         },
       },
     },
@@ -79,13 +94,13 @@ export class MoviesController {
   @patch('/movies')
   @response(200, {
     description: 'Movies PATCH success count',
-    content: {'application/json': {schema: CountSchema}},
+    content: { 'application/json': { schema: CountSchema } },
   })
   async updateAll(
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Movies, {partial: true}),
+          schema: getModelSchemaRef(Movies, { partial: true }),
         },
       },
     })
@@ -100,13 +115,13 @@ export class MoviesController {
     description: 'Movies model instance',
     content: {
       'application/json': {
-        schema: getModelSchemaRef(Movies, {includeRelations: true}),
+        schema: getModelSchemaRef(Movies, { includeRelations: true }),
       },
     },
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Movies, {exclude: 'where'}) filter?: FilterExcludingWhere<Movies>
+    @param.filter(Movies, { exclude: 'where' }) filter?: FilterExcludingWhere<Movies>
   ): Promise<Movies> {
     return this.moviesRepository.findById(id, filter);
   }
@@ -120,7 +135,7 @@ export class MoviesController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Movies, {partial: true}),
+          schema: getModelSchemaRef(Movies, { partial: true }),
         },
       },
     })
