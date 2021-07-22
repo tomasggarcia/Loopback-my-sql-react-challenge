@@ -96,7 +96,7 @@ export default function Home() {
     return (
         <div>
             <Button onClick={addMovie}>Add Movie</Button>
-            <Input afterSubmit={getMovies}/>
+            <Input afterSubmit={getMovies} allMovies={movies}/>
             <Container>
                 <ListGroup className='mt-3 w-50'>
                     {movies.map((movie: any) => (
