@@ -19,8 +19,8 @@ export default function Home() {
         try {
             let resp = await axios.get(`${url}/movies`)
 
-            let newMovies: any = []
-            resp.data.forEach((movie: any) => {
+            let newMovies: IMovies[] = []
+            resp.data.forEach((movie: IMovies) => {
                 newMovies.push(movie)
             });
             setMovies(newMovies)
@@ -31,8 +31,6 @@ export default function Home() {
     useEffect(() => {
         getMovies()
     }, [])
-
-
 
     const swalEdit = (event: any) => {
         swal('Change movie name', {
@@ -48,6 +46,17 @@ export default function Home() {
             })
     }
 
+    const swalDelete = (event: any) => {
+        swal('Are you sure you want to delete the movie',{
+            buttons: ["No", "Yes"],
+          })
+          .then((value)=>{
+              if(value===true){
+                  handleDelete(event)
+              }
+          })
+    }
+
     const handleEdit = async (event: any, value: string) => {
         let id = parseInt(event.target.name)
         console.log(id)
@@ -58,18 +67,6 @@ export default function Home() {
             console.log(error)
         }
         getMovies()
-    }
-
-
-    const swalDelete = (event: any) => {
-        swal({
-            buttons: ["Stop", "Do it!"],
-          })
-          .then((value)=>{
-              if(value===true){
-                  handleDelete(event)
-              }
-          })
     }
 
     const handleDelete = async (event: any) => {
