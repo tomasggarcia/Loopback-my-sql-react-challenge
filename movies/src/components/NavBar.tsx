@@ -1,5 +1,6 @@
 import React from 'react'
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import { Button, Container, Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import SearchBar from './SearchBar'
 
 export default function NavBar() {
     return (
@@ -11,6 +12,7 @@ export default function NavBar() {
                     <Nav className="me-auto">
                         <Nav.Link href="home">Home</Nav.Link>
                         <Nav.Link href="login">Login</Nav.Link>
+                    <SearchBar/>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -15,21 +15,23 @@ export default function Home() {
     const [movies, setMovies] = useState<IMovies[]>([]);
 
     // get all movies request
-    useEffect(() => {
-        (async function () {
-            try {
-                let resp = await axios.get(`${url}/movies`)
+    async function getMovies() {
+        try {
+            let resp = await axios.get(`${url}/movies`)
 
-                let newMovies: any = []
-                resp.data.forEach((movie: any) => {
-                    newMovies.push(movie)
-                });
-                setMovies(newMovies)
-            } catch (error) {
-                console.log(error)
-            }
-        })()
+            let newMovies: any = []
+            resp.data.forEach((movie: any) => {
+                newMovies.push(movie)
+            });
+            setMovies(newMovies)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getMovies()
     }, [])
+
 
 
     const swalEdit = (event: any) => {
@@ -55,6 +57,7 @@ export default function Home() {
         } catch (error) {
             console.log(error)
         }
+        getMovies()
     }
 
 
@@ -70,9 +73,9 @@ export default function Home() {
     }
 
     const handleDelete = async (event: any) => {
-        
         let resp = await axios.delete(`${url}/movies/${event.target.name}`)
         console.log(resp)
+        getMovies()
     }
     return (
         <div>
