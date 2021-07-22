@@ -45,7 +45,7 @@ export default function Home() {
         } as any)
             .then(async (value) => {
                 try {
-                    await axios.post(`${url}/movies`, { name: value })
+                    await axios.post(`${url}/movie`, { name: value })
                     swal('Movie Created')
                     getMovies()
                 } catch (error) {
@@ -96,7 +96,7 @@ export default function Home() {
     return (
         <div>
             <Button onClick={addMovie}>Add Movie</Button>
-            <Input />
+            <Input afterSubmit={getMovies}/>
             <Container>
                 <ListGroup className='mt-3 w-50'>
                     {movies.map((movie: any) => (

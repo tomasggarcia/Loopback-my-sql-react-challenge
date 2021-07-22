@@ -27,7 +27,7 @@ export class MoviesController {
     public moviesRepository: MoviesRepository,
   ) { }
 
-  @post('/movies')
+  @post('/movie')
   @response(200, {
     description: 'Movies model instance',
     content: { 'application/json': { schema: getModelSchemaRef(Movies) } },
@@ -54,9 +54,32 @@ export class MoviesController {
     if (movieExists) {
       // Disallow addition of user into existing tenant
       throw new HttpErrors.BadRequest('Movie already exists');
-    } 
+    }
     return this.moviesRepository.create(movies);
   }
+
+
+
+
+  @post('/movies')
+  @response(200, {
+    description: 'Movies model instance',
+    content: { 'application/json': { schema: getModelSchemaRef(Movies) } },
+  }
+  )
+  async createMovies(
+    @requestBody.array(
+      getModelSchemaRef(Movies, { title: 'NewPeople', exclude: ['id'] }
+      ))
+    movies: [Omit<Movies, 'id'>],
+  ): Promise<Movies[]> {
+    console.log(movies)
+    return await this.moviesRepository.createAll(movies)
+  }
+
+
+
+
 
   @get('/movies/count')
   @response(200, {

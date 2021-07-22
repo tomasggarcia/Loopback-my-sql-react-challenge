@@ -12,6 +12,7 @@ export class Movies extends Entity {
   @property({
     type: 'string',
     required: true,
+    unique: true
   })
   name: string;
 

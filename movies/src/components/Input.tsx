@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap'
 import CSVReader from 'react-csv-reader'
 import {url} from '../config'
 
-export default function Input() {
+export default function Input(props:any) {
 
     const [input, setInput] = useState<string[]>([])
     const fileLoad = (data:any[],fileInfo:any)=> {
@@ -15,7 +15,7 @@ export default function Input() {
         setInput(movies)
     }
 
-    const handleSubmit = ()=> {
+    const handleSubmit = async ()=> {
         console.log(input)
         let moviesPost: string
         let mov = input.map(movie => ({name:movie}))
@@ -23,7 +23,8 @@ export default function Input() {
         moviesPost = JSON.stringify(mov)
         console.log(moviesPost)
 
-        axios.post(`${url}/movies`,mov).then(resp => console.log(resp))
+        await axios.post(`${url}/movies`,mov).then(resp => console.log(resp))
+        props.afterSubmit()
     }
     return (
         <div>
