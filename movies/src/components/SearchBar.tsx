@@ -1,14 +1,14 @@
-import axios from 'axios';
 import React, { useState } from 'react'
 import { Button, Form, FormControl } from 'react-bootstrap'
-import { url } from '../config'
+import { useHistory } from 'react-router-dom';
+
 
 export default function SearchBar() {
+    const history = useHistory();
     const [search, setSearch] = useState<string>('');
 
     const apiPrueba = async() => {
-        let resp = await axios.get(`${url}/movies?filter=%7B"where":%7B"name":%7B"like"%3A"%25${search}%25"%7D%7D%7D`)
-        console.log(resp)
+        history.push(`/search?filter=${search}`);
     }
 
     const setSearchChange = (event:any) => {
