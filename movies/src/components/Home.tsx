@@ -2,14 +2,11 @@ import { useEffect, useState } from 'react'
 import Input from './Input'
 import axios from 'axios'
 import { url } from '../config'
-import { Button, Container, ListGroup } from 'react-bootstrap'
+import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap'
 import swal from 'sweetalert';
+import IMovies from '../interfaces/movies'
 
 
-interface IMovies {
-    id?: number,
-    name?: string,
-}
 
 export default function Home() {
     const [movies, setMovies] = useState<IMovies[]>([]);
@@ -35,7 +32,7 @@ export default function Home() {
 
     const addMovie = (event: any) => {
 
-        swal('Change movie name', {
+        swal('Enter movie name', {
             content: {
                 element: 'input',
                 attributes: {
@@ -50,7 +47,7 @@ export default function Home() {
                     getMovies()
                 } catch (error) {
                     let errorMessage = error.response.data.error.message
-                    if (errorMessage){
+                    if (errorMessage) {
                         swal(errorMessage)
                     }
                 }
@@ -95,19 +92,36 @@ export default function Home() {
 
 
     return (
-        <div>
-            <Button onClick={addMovie}>Add Movie</Button>
-            <Input afterSubmit={getMovies} allMovies={movies}/>
-            <Container>
-                <ListGroup className='mt-3 w-50'>
+        <Container >
+            <Row >
+                <Col>
+                    <Input afterSubmit={getMovies} allMovies={movies} />
+                </Col>
+                <Col>
+                    <Button onClick={addMovie} >Add Movie</Button>
+                </Col>
+
+            </Row>
+
+
+            <Container className="d-flex justify-content-center ">
+                <ListGroup className='mt-3 w-50 d-flex'>
                     {movies.map((movie: any) => (
-                        <ListGroup.Item>{movie.name} {movie.id}
-                            <Button name={movie.id.toString()} onClick={handleEdit}>Edit</Button>
-                            <Button name={movie.id.toString()} onClick={handleDelete}>X</Button>
-                        </ListGroup.Item>
+                        <Row>
+                            <ListGroup.Item className='mr-auto p-2 d-flex'>
+                                <Col>
+                                    {movie.name} 
+                                    {/* {movie.id} */}
+                                </Col>
+                                <Col md={{ span: 3, offset: 1 }}>
+                                    <Button className='m-1' name={movie.id.toString()} onClick={handleEdit}>Edit</Button>
+                                    <Button className='' name={movie.id.toString()} onClick={handleDelete}>X</Button>
+                                </Col>
+                            </ListGroup.Item>
+                        </Row>
                     ))}
                 </ListGroup>
             </Container>
-        </div>
+        </Container>
     )
 }

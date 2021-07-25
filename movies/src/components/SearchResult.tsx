@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { url } from '../config'
 import axios from 'axios';
-import { Button, Container, ListGroup } from 'react-bootstrap';
+import { Container, ListGroup } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 import IMovies from '../interfaces/movies'
 

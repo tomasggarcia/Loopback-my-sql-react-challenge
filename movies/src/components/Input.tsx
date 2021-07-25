@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 import CSVReader from 'react-csv-reader'
 import swal from 'sweetalert'
 import {url} from '../config'
@@ -38,9 +38,9 @@ export default function Input(props:any) {
     }
 
     return (
-        <div>
+        <Container>
             <CSVReader onFileLoaded={fileLoad} />
             <Button onClick={handleSubmit}>Submit</Button>
-        </div>
+        </Container>
     )
 }

@@ -19,7 +19,7 @@ export default function SearchBar() {
         <Form className="d-flex">
             <FormControl
                 type="search"
-                placeholder="Search"
+                placeholder="Movie name"
                 className="mr-2"
                 aria-label="Search"
                 onChange={setSearchChange}
