@@ -93,6 +93,7 @@ export default function Home() {
             })
     }
 
+
     return (
         <div>
             <Button onClick={addMovie}>Add Movie</Button>
