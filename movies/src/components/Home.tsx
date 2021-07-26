@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import Input from './Input'
 import axios from 'axios'
 import { url } from '../config'
 import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap'

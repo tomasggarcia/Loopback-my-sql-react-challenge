@@ -13,6 +13,7 @@ export default function SearchResult() {
 
     async function getMovies() {
         try {
+            // movies?filter={"where":{"name":{"like":"${filter}"}}}
             let resp = await axios.get(`${url}/movies?filter=%7B"where":%7B"name":%7B"like"%3A"%25${filter}%25"%7D%7D%7D`)
 
             let newMovies: IMovies[] = []
@@ -26,12 +27,13 @@ export default function SearchResult() {
     }
     useEffect(() => {
         getMovies()
-    }, [filter])
+    }, [filter]) //eslint-disable-line
 
 
     return (
-        <Container>
-            <ListGroup className='mt-3 w-50'>
+        <Container className="mt-5 justify-content-center bg-light border shadow w-50 p-5">
+            <h3>Results:</h3>
+            <ListGroup className='mt-3 '>
                 {movies.map((movie: any) => (
                     <ListGroup.Item>{movie.name} {movie.id}
                         {/* <Button name={movie.id.toString()} onClick={handleEdit}>Edit</Button>
