@@ -79,8 +79,6 @@ export class MoviesController {
 
 
 
-
-
   @get('/movies/count')
   @response(200, {
     description: 'Movies model count',

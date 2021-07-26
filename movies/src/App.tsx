@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import NavBar from './components/NavBar';
 import SearchResult from './components/SearchResult';
+import Input from './components/Input';
 import "./style.scss";
 
 function App() {
@@ -12,9 +13,10 @@ function App() {
     <div className="App">
       <NavBar/>
       <Switch>
-        <Route exact path='/login' component={Login}/>
         <Route exact path='/' component={Home}/>
+        <Route exact path='/login' component={Login}/>
         <Route exact path='/search' component={SearchResult}/>
+        <Route exact path='/upload' component={Input}/>
       </Switch>
     </div>
   );

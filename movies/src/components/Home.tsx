@@ -93,24 +93,15 @@ export default function Home() {
 
     return (
         <Container >
-            <Row >
-                <Col>
-                    <Input afterSubmit={getMovies} allMovies={movies} />
-                </Col>
-                <Col>
-                    <Button onClick={addMovie} >Add Movie</Button>
-                </Col>
-
-            </Row>
-
-
-            <Container className="d-flex justify-content-center ">
+            {/* <Input afterSubmit={getMovies} allMovies={movies} /> */}
+            <Button onClick={addMovie} >Add Movie</Button>
+            <Container className="d-flex justify-content-center">
                 <ListGroup className='mt-3 w-50 d-flex'>
                     {movies.map((movie: any) => (
                         <Row>
                             <ListGroup.Item className='mr-auto p-2 d-flex'>
                                 <Col>
-                                    {movie.name} 
+                                    {movie.name}
                                     {/* {movie.id} */}
                                 </Col>
                                 <Col md={{ span: 3, offset: 1 }}>

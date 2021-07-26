@@ -13,6 +13,7 @@ export default function NavBar() {
                     <Nav className="me-auto">
                         <Nav.Link href="/">Home</Nav.Link>
                         <Nav.Link href="login">Login</Nav.Link>
+                        <Nav.Link href="upload">Upload csv</Nav.Link>
                     </Nav>
                     <SearchBar />
                 </Navbar.Collapse>

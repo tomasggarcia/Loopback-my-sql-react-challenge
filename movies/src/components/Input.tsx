@@ -1,12 +1,13 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Container } from 'react-bootstrap'
 import CSVReader from 'react-csv-reader'
 import swal from 'sweetalert'
 import {url} from '../config'
+import IMovies from '../interfaces/movies'
 
-export default function Input(props:any) {
-
+export default function Input() {
+    const [movies, setMovies] = useState<IMovies[]>([]);
     const [input, setInput] = useState<string[]>([])
     const fileLoad = (data:any[],fileInfo:any)=> {
         let movies:string[] = []
@@ -16,13 +17,32 @@ export default function Input(props:any) {
         setInput(movies)
     }
 
+    async function getMovies() {
+        try {
+            let resp = await axios.get(`${url}/movies`)
+
+            let newMovies: IMovies[] = []
+            resp.data.forEach((movie: IMovies) => {
+                newMovies.push(movie)
+            });
+            setMovies(newMovies)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getMovies()
+    }, [])
+
+
     const handleSubmit = async ()=> {
 
-        console.log('input', input)
         let filteredMovies:any[] = []
+        console.log(movies)
+        console.log(input)
         input.forEach((movie:string) => {
             let includes = false
-            props.allMovies.forEach((oldMovie:any) => {
+            movies.forEach((oldMovie:any) => {
                 if(oldMovie.name===movie) includes=true
             });
             if (includes===false) {
@@ -33,14 +53,15 @@ export default function Input(props:any) {
 
         console.log(filteredMovies)
         await axios.post(`${url}/movies`,sendMovies).then(resp => console.log(resp))
-        props.afterSubmit()
+        // props.afterSubmit()
         swal('Movies updated')
     }
 
     return (
-        <Container>
+        <Container className="mt-5 justify-content-center bg-light border shadow w-50 p-5">
+            <h3 className='mb-5'>Upload movies from csv file</h3>
             <CSVReader onFileLoaded={fileLoad} />
-            <Button onClick={handleSubmit}>Submit</Button>
+            <Button className='mt-3' onClick={handleSubmit}>Submit</Button>
         </Container>
     )
 }
