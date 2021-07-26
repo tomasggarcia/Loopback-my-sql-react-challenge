@@ -4,11 +4,13 @@ import { url } from '../config'
 import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap'
 import swal from 'sweetalert';
 import IMovies from '../interfaces/movies'
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 
 
 export default function Home() {
     const [movies, setMovies] = useState<IMovies[]>([]);
+    const [page, setPage] = useState<number>(1)
 
     // get all movies request
     async function getMovies() {
@@ -89,14 +91,32 @@ export default function Home() {
             })
     }
 
+    const prevPage = () => {
+
+        if (page > 1) setPage(page - 1)
+    }
+    const nextPage = () => {
+        if (page < (movies.length / 5)) setPage(page + 1)
+    }
+
 
     return (
         <Container >
+            {console.log(movies)}
+            {console.log(movies.slice((page-1)*5,page*5))}
             {/* <Input afterSubmit={getMovies} allMovies={movies} /> */}
             <Button onClick={addMovie} >Add Movie</Button>
             <Container className="d-flex justify-content-center">
+                <h2>Movies</h2>
+            </Container>
+            <Container className=" d-flex justify-content-center">
+                <Button onClick={prevPage}><FiArrowLeft /></Button>
+                <label className='p-2'>{page}</label>
+                <Button onClick={nextPage}><FiArrowRight /></Button>
+            </Container>
+            <Container className="d-flex justify-content-center">
                 <ListGroup className='mt-3 w-50 d-flex'>
-                    {movies.map((movie: any) => (
+                    {movies.slice((page-1)*5,page*5).map((movie: any) => (
                         <Row>
                             <ListGroup.Item className='mr-auto p-2 d-flex'>
                                 <Col>
