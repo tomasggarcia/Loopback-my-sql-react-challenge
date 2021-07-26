@@ -1,14 +1,8 @@
-import swal from "sweetalert";
 import isStrongPassword from "validator/lib/isStrongPassword";
 import isEmail from "validator/lib/isEmail";
-import axios from "axios";
-import { url as URL } from "../config";
 import { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { IErrorUser } from "../interfaces/forms";
-import { useHistory } from "react-router-dom";
-
-
 
 
 function Login() {
@@ -16,8 +10,6 @@ function Login() {
     email?: string;
     pass?: string;
   }
-
-  const history = useHistory();
 
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
@@ -107,49 +99,7 @@ function Login() {
 
 
   const handleSubmit = async () => {
-    console.log({ email: email, pass: password });
 
-    let localCart: string = localStorage.getItem("cart") || "[]";
-
-    const resp = await axios
-      .post(`${URL}/login`, {
-        email: email,
-        pass: password,
-        cart: JSON.parse(localCart),
-      })
-      .catch((err) => console.log(err));
-
-    console.log(resp);
-
-    if (resp) {
-      console.log(resp.data.reset);
-      if (resp.data.reset === true) {
-        localStorage.setItem("token", resp.data.token);
-        swal("You need to reset your password").then(() =>
-          history.push("/login/passReset")
-        );
-      } else {
-        if (resp.data.message === "User") {
-          localStorage.setItem("token", resp.data.token);
-          swal("Welcome");
-          history.push("/home");
-        }
-        if (resp.data.message === "Admin") {
-          localStorage.setItem("token", resp.data.token);
-          console.log("entro admin");
-          history.push("/adminValidation");
-        }
-        if (resp.data.message === "Disabled") {
-          swal(
-            "Your Account has not been validated yet, please check your mail"
-          );
-        }
-        if (resp.data.message === "User or password are incorrect") {
-          swal("User or password are incorrect");
-          localStorage.removeItem("token");
-        }
-      }
-    } else swal("network error");
   };
 
   return (
