@@ -6,14 +6,16 @@ import swal from 'sweetalert'
 import {url} from '../config'
 import IMovies from '../interfaces/movies'
 
+
 export default function Input() {
     const [movies, setMovies] = useState<IMovies[]>([]);
-    const [input, setInput] = useState<string[]>([])
+    const [input, setInput] = useState<IMovies[]>([])
 
     const fileLoad = (data:any[],fileInfo:any)=> {
-        let inputMovies:string[] = []
+        console.log(data)
+        let inputMovies:IMovies[] = []
         data.forEach(movie => {
-            inputMovies.push(movie[0])
+            inputMovies.push({name: movie[0],description: movie[1],date: movie[2]})
         })
         setInput(inputMovies)
     }
@@ -37,22 +39,21 @@ export default function Input() {
 
 
     const handleSubmit = async ()=> {
-
-        let filteredMovies:string[] = []
-        input.forEach((movie:string) => {
+        console.log(input)
+        let filteredMovies:IMovies[] = []
+        input.forEach((movie:IMovies) => {
             let includes = false
             movies.forEach((oldMovie:IMovies) => {
-                if(oldMovie.name===movie) includes=true
+                if(oldMovie.name===movie.name) includes=true
             });
             if (includes===false) {
-                if(!filteredMovies.includes(movie)) filteredMovies.push(movie)
+                if(!filteredMovies.some(filterMovie => filterMovie.name === movie.name)) filteredMovies.push(movie)
             }
         })
-        let sendMovies = filteredMovies.map(movie => ({name:movie}))
-        if(sendMovies.length===0){
+        if(filteredMovies.length===0){
             swal('Movies already exist')
         } else {
-            await axios.post(`${url}/movies`,sendMovies).then(resp => console.log(resp))
+            await axios.post(`${url}/movies`,filteredMovies).then(resp => console.log(resp))
             // props.afterSubmit()
             swal('Movies updated')
         }

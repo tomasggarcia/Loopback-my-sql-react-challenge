@@ -1,4 +1,6 @@
 export default interface IMovies {
-    id: number,
+    id?: number,
     name: string,
+    description?: string,
+    date?: string
 }

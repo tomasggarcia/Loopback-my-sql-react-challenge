@@ -113,17 +113,22 @@ export default function Home() {
                 <Button onClick={nextPage}><FiArrowRight /></Button>
             </Container>
             <Container className="d-flex justify-content-center">
-                <ListGroup className='mt-3 w-50 d-flex'>
+                <ListGroup className='mt-3 w-75 d-flex'>
                     {movies.slice((page-1)*5,page*5).map((movie: IMovies) => (
                         <Row>
                             <ListGroup.Item className='mr-auto p-2 d-flex'>
                                 <Col>
-                                    {movie.name}
-                                    {/* {movie.id} */}
+                                    <b>Titulo: </b> {movie.name}<br></br>
+                                    <b>Sinopsis: </b>{movie.description}<br></br>
+                                    <b>Fecha de Lanzamiento: </b>{movie.date}
                                 </Col>
                                 <Col md={{ span: 3, offset: 1 }}>
-                                    <Button className='m-1' name={movie.id.toString()} onClick={handleEdit}>Edit</Button>
-                                    <Button className='' name={movie.id.toString()} onClick={handleDelete}>X</Button>
+                                    {movie.id?(
+                                        <div>
+                                            <Button className='m-1' name={movie.id.toString()} onClick={handleEdit}>Edit</Button>
+                                            <Button className='' name={movie.id.toString()} onClick={handleDelete}>X</Button>
+                                        </div>
+                                    ):null}
                                 </Col>
                             </ListGroup.Item>
                         </Row>

@@ -16,6 +16,20 @@ export class Movies extends Entity {
   })
   name: string;
 
+  @property({
+    type: 'string',
+    required: false,
+    unique: false
+  })
+  description: string;
+
+  @property({
+    type: 'string',
+    required: false,
+    unique: false
+  })
+  date: string;
+
 
   constructor(data?: Partial<Movies>) {
     super(data);
