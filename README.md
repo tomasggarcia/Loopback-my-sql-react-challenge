@@ -27,7 +27,6 @@ Configuracion previa:
 En /api:
 ```sh
 $ npm install
-$ npm run buid
 $ npm run migrate
 $ npm start
 ```
