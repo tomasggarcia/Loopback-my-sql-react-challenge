@@ -1,5 +1,9 @@
 # Loopback-my-sql-react-challenge
 
+## Deployment
+
+Link: http://52.67.216.171/
+
 ## Inicializar el proyecto:
 
 ### FrontEnd:
