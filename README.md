@@ -2,7 +2,7 @@
 
 ## Deployment
 
-Link: http://52.67.216.171/
+Link: http://18.229.137.95/
 
 ## Inicializar el proyecto:
 
