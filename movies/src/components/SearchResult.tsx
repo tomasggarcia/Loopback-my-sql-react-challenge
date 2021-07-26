@@ -7,7 +7,7 @@ import IMovies from '../interfaces/movies'
 
 export default function SearchResult() {
     const [movies, setMovies] = useState<IMovies[]>([]);
-    
+
     let query = new URLSearchParams(useLocation().search)
     let filter = query.get('filter')
 
@@ -34,12 +34,12 @@ export default function SearchResult() {
         <Container className="mt-5 justify-content-center bg-light border shadow w-50 p-5">
             <h3>Results:</h3>
             <ListGroup className='mt-3 '>
-                {movies.map((movie: any) => (
-                    <ListGroup.Item>{movie.name} {movie.id}
-                        {/* <Button name={movie.id.toString()} onClick={handleEdit}>Edit</Button>
-                        <Button name={movie.id.toString()} onClick={handleDelete}>X</Button> */}
-                    </ListGroup.Item>
-                ))}
+                {movies.length === 0 ? (<h3>No results</h3>) : (
+                        movies.map((movie: any) => (
+                            <ListGroup.Item>{movie.name} 
+                            </ListGroup.Item>
+                        ))
+                )}
             </ListGroup>
         </Container>
     )

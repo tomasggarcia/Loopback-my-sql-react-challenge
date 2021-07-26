@@ -9,12 +9,13 @@ import IMovies from '../interfaces/movies'
 export default function Input() {
     const [movies, setMovies] = useState<IMovies[]>([]);
     const [input, setInput] = useState<string[]>([])
+
     const fileLoad = (data:any[],fileInfo:any)=> {
-        let movies:string[] = []
+        let inputMovies:string[] = []
         data.forEach(movie => {
-            movies.push(movie[0])
+            inputMovies.push(movie[0])
         })
-        setInput(movies)
+        setInput(inputMovies)
     }
 
     async function getMovies() {
@@ -37,12 +38,10 @@ export default function Input() {
 
     const handleSubmit = async ()=> {
 
-        let filteredMovies:any[] = []
-        console.log(movies)
-        console.log(input)
+        let filteredMovies:string[] = []
         input.forEach((movie:string) => {
             let includes = false
-            movies.forEach((oldMovie:any) => {
+            movies.forEach((oldMovie:IMovies) => {
                 if(oldMovie.name===movie) includes=true
             });
             if (includes===false) {
@@ -50,11 +49,13 @@ export default function Input() {
             }
         })
         let sendMovies = filteredMovies.map(movie => ({name:movie}))
-
-        console.log(filteredMovies)
-        await axios.post(`${url}/movies`,sendMovies).then(resp => console.log(resp))
-        // props.afterSubmit()
-        swal('Movies updated')
+        if(sendMovies.length===0){
+            swal('Movies already exist')
+        } else {
+            await axios.post(`${url}/movies`,sendMovies).then(resp => console.log(resp))
+            // props.afterSubmit()
+            swal('Movies updated')
+        }
     }
 
     return (

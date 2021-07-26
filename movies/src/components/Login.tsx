@@ -153,14 +153,14 @@ function Login() {
   };
 
   return (
-    <Container className="p-4 ">
+    <Container className="w-50 p-4 ">
       <h2 className="text-center">Login</h2>
       <Form className="bg-light border shadow p-5 mb-4 rounded ">
         <Form.Group controlId="formBasicEmail">
-          <Form.Label className='d-flex justify-content-center'>Email</Form.Label>
+          <Form.Label className='d-flex justify-content-center'>User</Form.Label>
 
           <Form.Control
-            className={`border-${colors.email} border-2 w-75 ml-auto mr-auto`}
+            className={`border-${colors.email} border-2 ml-auto mr-auto`}
             type="text"
             placeholder="Enter email"
             name="email"
@@ -172,9 +172,9 @@ function Login() {
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
-          <Form.Label className='d-flex justify-content-center'>Password</Form.Label>
+          <Form.Label className='mt-3 d-flex justify-content-center'>Password</Form.Label>
           <Form.Control
-            className={`border-${colors.pass} border-2 w-75 ml-auto mr-auto`}
+            className={`border-${colors.pass} border-2  ml-auto mr-auto`}
             type="password"
             placeholder="Enter Password"
             name="pass"
@@ -198,9 +198,6 @@ function Login() {
           </Button>
         )}
         </div>
-        <br></br>
-        <hr></hr>
-        <br></br>
         {invalid ? (
           <label className="">Invalid email or password </label>
         ) : null}

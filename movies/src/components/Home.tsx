@@ -26,6 +26,8 @@ export default function Home() {
             console.log(error)
         }
     }
+
+    // initial request
     useEffect(() => {
         getMovies()
     }, [])
@@ -92,7 +94,6 @@ export default function Home() {
     }
 
     const prevPage = () => {
-
         if (page > 1) setPage(page - 1)
     }
     const nextPage = () => {
@@ -102,10 +103,7 @@ export default function Home() {
 
     return (
         <Container >
-            {console.log(movies)}
-            {console.log(movies.slice((page-1)*5,page*5))}
-            {/* <Input afterSubmit={getMovies} allMovies={movies} /> */}
-            <Button onClick={addMovie} >Add Movie</Button>
+            <Button onClick={addMovie} className='mt-2'>Add Movie</Button>
             <Container className="d-flex justify-content-center">
                 <h2>Movies</h2>
             </Container>
@@ -116,7 +114,7 @@ export default function Home() {
             </Container>
             <Container className="d-flex justify-content-center">
                 <ListGroup className='mt-3 w-50 d-flex'>
-                    {movies.slice((page-1)*5,page*5).map((movie: any) => (
+                    {movies.slice((page-1)*5,page*5).map((movie: IMovies) => (
                         <Row>
                             <ListGroup.Item className='mr-auto p-2 d-flex'>
                                 <Col>
